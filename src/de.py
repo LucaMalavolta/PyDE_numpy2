@@ -6,7 +6,7 @@ Implements the differential evolution optimization method by Storn & Price
 """
 
 from numba import njit
-from numpy import asarray, zeros, zeros_like, tile, array, argmin, mod
+from numpy import asarray, zeros, zeros_like, tile, array, argmin, mod, ptp
 from numpy.random import random, randint, rand, seed as rseed, uniform
 
 
@@ -194,7 +194,7 @@ class DiffEvol(object):
             fitc[msk] = fitt[msk]
 
             self._minidx = argmin(fitc)
-            if fitc.ptp() < self.min_ptp:
+            if ptp(fitc) < self.min_ptp:
                 break
 
             yield popc[self._minidx, :], fitc[self._minidx]
@@ -218,7 +218,7 @@ class DiffEvol(object):
             fitc[msk] = fitt[msk]
 
             self._minidx = argmin(fitc)
-            if fitc.ptp() < self.min_ptp:
+            if ptp(fitc) < self.min_ptp:
                 break
 
             yield popc[self._minidx, :], fitc[self._minidx]
